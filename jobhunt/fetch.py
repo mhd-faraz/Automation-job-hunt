@@ -10,7 +10,8 @@ from typing import Any, Iterable
 import requests
 
 UA = {"User-Agent": "jobhunt/1.0 (personal job search agent)"}
-TIMEOUT = 20
+TIMEOUT = 60          # was 20: slow networks need more headroom
+RETRIES = 3           # attempts per board before giving up
 
 _TAG = re.compile(r"<[^>]+>")
 _WS = re.compile(r"[ \t\r\f\v]+")
@@ -66,7 +67,7 @@ def parse_greenhouse(slug: str, company: str, body: Any) -> list[Job]:
             location=loc.strip(),
             url=j.get("absolute_url") or "",
             description=strip_html(j.get("content")),
-            posted_at=j.get("updated_at") or j.get("first_published"),
+            posted_at=j.get("first_published") or j.get("updated_at"),
         ))
     return out
 
@@ -132,20 +133,35 @@ ENDPOINTS = {
 
 def fetch_board(ats: str, slug: str, company: str | None = None,
                 session: requests.Session | None = None) -> list[Job]:
-    """Hit one company's public board. Returns [] on any failure (never raises)."""
+    """Hit one company's public board. Returns [] on any failure (never raises).
+
+    Retries up to RETRIES times on network errors. Retries use a fresh
+    connection (no shared Session) so a stuck keep-alive socket can't poison
+    every later attempt.
+    """
     if ats not in ENDPOINTS:
         raise ValueError(f"unknown ATS: {ats}")
     url_tpl, parser = ENDPOINTS[ats]
-    sess = session or requests
-    try:
-        r = sess.get(url_tpl.format(slug=slug), headers=UA, timeout=TIMEOUT)
-        if r.status_code != 200:
-            print(f"  ! {ats}/{slug} -> HTTP {r.status_code}")
-            return []
-        return parser(slug, company or slug, r.json())
-    except Exception as e:  # dead slug, rate limit, network blip
-        print(f"  ! {ats}/{slug} -> {type(e).__name__}: {e}")
-        return []
+    url = url_tpl.format(slug=slug)
+    last_err: Exception | None = None
+
+    for attempt in range(1, RETRIES + 1):
+        try:
+            if attempt == 1 and session is not None:
+                r = session.get(url, headers=UA, timeout=TIMEOUT)
+            else:
+                r = requests.get(url, headers={**UA, "Connection": "close"}, timeout=TIMEOUT)
+            if r.status_code != 200:
+                print(f"  ! {ats}/{slug} -> HTTP {r.status_code}")
+                return []
+            return parser(slug, company or slug, r.json())
+        except Exception as e:  # network blip: wait and retry
+            last_err = e
+            if attempt < RETRIES:
+                time.sleep(2 * attempt)
+
+    print(f"  ! {ats}/{slug} -> {type(last_err).__name__}: {last_err}")
+    return []
 
 
 def fetch_all(companies: Iterable[dict], sleep: float = 0.25) -> list[Job]:

@@ -23,16 +23,53 @@
 # noise and makes the prefilter counts impossible to reason about.
 
 companies:
-  - {ats: greenhouse, slug: stripe,      name: Stripe}
+  # verified, India hiring (chhoti / mid-size)
+  - {ats: greenhouse, slug: razorpaysoftwareprivatelimited, name: Razorpay}
+  - {ats: greenhouse, slug: groww,       name: Groww}
+  - {ats: greenhouse, slug: slice,       name: Slice}
+  - {ats: lever,      slug: cred,        name: CRED}
+  - {ats: lever,      slug: meesho,      name: Meesho}
+  - {ats: lever,      slug: zeta,        name: Zeta}
+  - {ats: ashby,      slug: atlan,       name: Atlan}
+  - {ats: ashby,      slug: spotdraft,   name: SpotDraft}
+  - {ats: greenhouse, slug: mixpanel,    name: Mixpanel}
+  - {ats: greenhouse, slug: gleanwork,   name: Glean}
+  - {ats: greenhouse, slug: turing,      name: Turing}
+  - {ats: ashby,      slug: posthog,     name: PostHog}
+  - {ats: greenhouse, slug: vercel,      name: Vercel}
+  # verified, bade naam (bonus)
   - {ats: greenhouse, slug: databricks,  name: Databricks}
-  - {ats: greenhouse, slug: cloudflare,  name: Cloudflare}
-  - {ats: greenhouse, slug: figma,       name: Figma}
-  - {ats: greenhouse, slug: dropbox,     name: Dropbox}
-  - {ats: greenhouse, slug: coinbase,    name: Coinbase}
-  - {ats: greenhouse, slug: reddit,      name: Reddit}
-  - {ats: lever,      slug: voleon,      name: Voleon}
-
-  - {ats: ashby,      slug: openai,      name: OpenAI}
-  - {ats: ashby,      slug: ramp,        name: Ramp}
-  - {ats: ashby,      slug: linear,      name: Linear}
-  - {ats: ashby,      slug: vanta,       name: Vanta}
+  - {ats: greenhouse, slug: mongodb,     name: MongoDB}
+  - {ats: greenhouse, slug: rubrik,      name: Rubrik}
+  - {ats: greenhouse, slug: elastic,     name: Elastic}
+  - {ats: greenhouse, slug: gitlab,      name: GitLab}
+  - {ats: greenhouse, slug: twilio,      name: Twilio}
+  # unverified (pehle run mein check ho jayenge)
+  - {ats: ashby,      slug: supabase,    name: Supabase}
+  - {ats: lever,      slug: jumpcloud,   name: JumpCloud}
+  - {ats: lever,      slug: gushwork,    name: Gushwork}
+  - {ats: lever,      slug: valgenesis,  name: ValGenesis}
+  - {ats: lever,      slug: klearnow,    name: KlearNow}
+  - {ats: ashby,      slug: gigaml,      name: Giga}
+  # added by find_companies.py
+  - {ats: ashby, slug: sarvam, name: Sarvam}
+  - {ats: greenhouse, slug: okta, name: Okta}
+  - {ats: lever, slug: hevodata, name: Hevodata}
+  - {ats: lever, slug: mindtickle, name: Mindtickle}
+  - {ats: greenhouse, slug: stripe, name: Stripe}
+  - {ats: greenhouse, slug: netskope, name: Netskope}
+  - {ats: greenhouse, slug: coinbase, name: Coinbase}
+  - {ats: ashby, slug: notion, name: Notion}
+  - {ats: lever, slug: paytm, name: Paytm}
+  - {ats: lever, slug: gohighlevel, name: Gohighlevel}
+  - {ats: lever, slug: fampay, name: Fampay}
+  - {ats: ashby, slug: clickhouse, name: Clickhouse}
+  - {ats: greenhouse, slug: newrelic, name: Newrelic}
+  - {ats: ashby, slug: openai, name: Openai}
+  - {ats: lever, slug: outreach, name: Outreach}
+  - {ats: greenhouse, slug: inmobi,    name: InMobi}
+  - {ats: greenhouse, slug: pubmatic,  name: PubMatic}
+  - {ats: greenhouse, slug: zenoti,    name: Zenoti}
+  - {ats: greenhouse, slug: fivetran,  name: Fivetran}
+  - {ats: greenhouse, slug: zoominfo,  name: ZoomInfo}
+  - {ats: greenhouse, slug: druva,     name: Druva}
